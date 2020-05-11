@@ -24,4 +24,30 @@ public class EmployeeDao implements EmployeeInterface {
                 new BeanPropertyRowMapper(Employee.class));
         return list;
     }
+
+    @Override
+    public Employee getEmployee(Integer id) {
+        String sql="select * from employeetab where id=?";
+
+        Employee emp= (Employee) jdbcTemplate.queryForObject(sql,new Object[]{id},
+                new BeanPropertyRowMapper(Employee.class));
+
+        return emp;
+    }
+
+    @Override
+    public String insertEmployee(Employee e) {
+        String sql="insert into employeetab values(?,?,?)";
+
+        jdbcTemplate.update(sql,new Object[]{e.getId(),e.getName(),e.getCity()});
+
+        return "Employee Saved Successfully";
+    }
+
+    @Override
+    public String updateEmployee(Integer id, String name) {
+        String sql="update employeetab set name=? where id=?";
+        jdbcTemplate.update(sql,new Object[]{name,id});
+        return "Employee updated";
+    }
 }
