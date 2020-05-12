@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class EmployeeDao implements EmployeeInterface {
@@ -49,5 +50,25 @@ public class EmployeeDao implements EmployeeInterface {
         String sql="update employeetab set name=? where id=?";
         jdbcTemplate.update(sql,new Object[]{name,id});
         return "Employee updated";
+    }
+
+    @Override
+    public List<Map<String, Object>> getCombinedData() {
+
+        String sql="select a.name as empName,a.city as empCity,b.name as empDepartment " +
+                "from employeetab a,department b where a.dept_id=b.id";
+        List<Map<String,Object>> list=jdbcTemplate.queryForList(sql);
+
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCombinedData(Integer deptId) {
+
+        String sql="select a.name as empName,a.city as empCity,b.name as empDepartment " +
+                "from employeetab a,department b where a.dept_id=b.id and b.id=?";
+        List<Map<String,Object>> list=jdbcTemplate.queryForList(sql,new Object[]{deptId});
+
+        return list;
     }
 }

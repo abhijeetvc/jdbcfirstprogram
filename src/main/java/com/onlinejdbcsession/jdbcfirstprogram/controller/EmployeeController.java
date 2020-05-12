@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class EmployeeController {
@@ -40,6 +41,11 @@ public class EmployeeController {
                                 @PathVariable String name){
 
         return employeeDao.updateEmployee(id,name);
+    }
+
+    @GetMapping(value="/joindata")
+    public List<Map<String,Object>> getCombinedEmpData(){
+        return employeeDao.getCombinedData();
     }
 
 }
